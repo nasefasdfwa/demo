@@ -1,0 +1,51 @@
+server:
+  port: 8088
+  ssl:
+    enabled: true
+    key-store: ${SSL_KEYSTORE_PATH:/secret/sds-self-signed-store.jks}
+    key-store-password: ${SSL_KEYSTORE_PASSWORD:epamtver2019}
+    key-store-type: jks
+    key-alias: ${SSL_KEYSTORE_KEY_ALIAS:self_local_sans}
+  servlet:
+    context-path: /api
+    session:
+      timeout: ${SERVER_SERVLET_SESSION_TIMEOUT_S:600}
+    compression:
+      enabled: ${SERVER_SERVLET_COMPRESSION_ENABLED:true}
+      mime-types: "text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json"
+      min-response-size: 1024
+  connection-timeout: -1
+  mvc:
+    async:
+      request-timeout: ${SERVER_MVC_ASYNC_REQUEST_TIMEOUT_MS:600000}
+  error:
+    include-exception: true
+  banner:
+    location: banner/api-banner.txt
+    charset: UTF-8
+  max-http-header-size: ${SERVER_MAX_HTTP_HEADER_SIZE:65536}
+  max-initial-line-length: ${SERVER_MAX_INITIAL_LINE_LENGTH:65536}
+
+spring:
+  application:
+    name: employee-service
+  jackson:
+    mapper:
+      accept_case_insensitive_enums: true
+    parser:
+      allow_comments: true
+    default-property-inclusion: non_null
+  sleuth:
+    enabled: ${SLEUTH_ENABLED:true}
+    sampler:
+      probability: ${SLEUTH_SAMPLER_PROBABILITY:1.0}
+  zipkin:
+    enabled: ${ZIPKIN_ENABLED:true}
+    baseUrl: ${ZIPKIN_BASE_URL:http://zipkin0:9411}
+
+hadoop:
+  hdfs:
+    enabled: ${HDFS_ENABLED:true}
+    uri: ${HDFS_NS_URI:hdfs://nameservice1}
+    user: ${HDFS_USER:cloudera}
+    confDir: ${HADOOP_CONF_DIR:/config/hadoop}
